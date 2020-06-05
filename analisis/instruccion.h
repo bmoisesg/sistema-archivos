@@ -19,6 +19,7 @@ public:
     int getParametro_int(QString nombre);
     bool tieneQueSer(QString,QList<QString>);
     void imprimirErrorParametro(QString nombre);
+    void crearCarpetas(QString name);
 };
 
 #endif // INSTRUCCION_H

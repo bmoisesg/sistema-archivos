@@ -1,4 +1,3 @@
-mkdisk -path="asdf" -size=45 -fit=bf
-mkdisk -path="sdafdsa" -size=0 -fit=ff
-mkdisk -size=8  -path=/home/a.disks -unit=K
-mkdisk -Size=3  -path=/home/user/disco.disk -fit=ff
+mkdisk -Size=1  -path=/home/bmoi6/1/2/3/4/disco.disk -fit=ff -unit=k
+
+mkdisk -Size=1  -path=/home/bmoi6/1/2/disco.disk -fit=ff -unit=m

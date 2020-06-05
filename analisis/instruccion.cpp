@@ -63,3 +63,12 @@ bool instruccion::tieneQueSer(QString nombre, QList<QString> lista){
 void instruccion::imprimirErrorParametro(QString nombre){
         imprimir("ERROR, parametro "+nombre+" no valido");
 }
+
+void instruccion::crearCarpetas(QString name){
+    QStringList lista = name.split("/");
+    QString guardar="mkdir -p /";
+    for(int x=0; x<lista.length()-1;x++){
+        guardar=guardar+lista.at(x)+"/";
+    }
+    system(guardar.toUtf8().constData());
+}
