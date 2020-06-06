@@ -66,9 +66,10 @@ void instruccion::imprimirErrorParametro(QString nombre){
 
 void instruccion::crearCarpetas(QString name){
     QStringList lista = name.split("/");
-    QString guardar="mkdir -p /";
+    QString guardar="mkdir -p \"/";
     for(int x=0; x<lista.length()-1;x++){
         guardar=guardar+lista.at(x)+"/";
     }
+    guardar=guardar+"\"";
     system(guardar.toUtf8().constData());
 }

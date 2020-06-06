@@ -1516,7 +1516,7 @@ yyreduce:
 
   case 31:
 #line 189 "sintactico.yy" /* yacc.c:1646  */
-    {(yyval.Instruccion)= new rmdisk();}
+    {(yyval.Instruccion)= new rmdisk(*(yyvsp[0].Lista_parametros));}
 #line 1521 "parser.cpp" /* yacc.c:1646  */
     break;
 

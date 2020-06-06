@@ -1,11 +1,13 @@
 #ifndef RMDISK_H
 #define RMDISK_H
+#include "fstream"
 #include "analisis/instruccion.h"
 
 class rmdisk: public instruccion
 {
 public:
-    rmdisk();
+    QString path;
+    rmdisk(lista_parametros);
     void ejecutar() ;
 };
 

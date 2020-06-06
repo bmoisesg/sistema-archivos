@@ -1,3 +1,6 @@
-mkdisk -Size=1  -path=/home/bmoi6/1/2/3/4/disco.disk -fit=ff -unit=k
+#mkdisk -Size=3  -path=/home/bmoi6/1/2/3/4/disco.disk -fit=ff -unit=k
+#mkdisk -Size=2  -path=/home/bmoi6/1/2/disco.disk -fit=ff -unit=m
 
-mkdisk -Size=1  -path=/home/bmoi6/1/2/disco.disk -fit=ff -unit=m
+mkdisk -Size=1  -path=/home/bmoi6/1/disco.disk -fit=ff -unit=m
+mkdisk -Size=1  -path=/home/bmoi6/1/disco2.disk -fit=ff -unit=m
+rmdisk -path=/home/bmoi6/1/disco.disk
