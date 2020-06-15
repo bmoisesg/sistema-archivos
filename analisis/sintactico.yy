@@ -187,7 +187,7 @@ TITULOPARAMETRO:
 COMANDO:
         rMkdisk   LISTA_PARAMETRO {$$= new mkdisk(*$2);}
         |rRmdisk  LISTA_PARAMETRO {$$= new rmdisk(*$2);}
-        |rFdisck  LISTA_PARAMETRO {$$= new fdisk();}
+        |rFdisck  LISTA_PARAMETRO {$$= new fdisk(*$2);}
         |rMount   LISTA_PARAMETRO {$$= new mount();}
         |rUnmount LISTA_PARAMETRO {$$= new unmount();}
         |rExec    LISTA_PARAMETRO {$$= new exec(*$2);}

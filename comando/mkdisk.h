@@ -18,7 +18,7 @@ public:
 
     mkdisk(lista_parametros);
     void ejecutar();
-    int getTamReal(int, QString);
+
     int getRandom();
 };
 

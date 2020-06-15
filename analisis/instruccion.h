@@ -20,6 +20,7 @@ public:
     bool tieneQueSer(QString,QList<QString>);
     void imprimirErrorParametro(QString nombre);
     void crearCarpetas(QString name);
+    int getTamReal(int, QString);
 };
 
 #endif // INSTRUCCION_H

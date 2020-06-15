@@ -1522,7 +1522,7 @@ yyreduce:
 
   case 32:
 #line 190 "sintactico.yy" /* yacc.c:1646  */
-    {(yyval.Instruccion)= new fdisk();}
+    {(yyval.Instruccion)= new fdisk(*(yyvsp[0].Lista_parametros));}
 #line 1527 "parser.cpp" /* yacc.c:1646  */
     break;
 

@@ -70,11 +70,7 @@ void mkdisk::ejecutar(){
 
 
 }
-int mkdisk::getTamReal(int num, QString letra){
-    if(letra=="k")       return num*1024;
-    else if (letra=="m") return num*1024*1024;
-    return 0;
-}
+
 int mkdisk::getRandom(){
     time_t t;
     srand( (unsigned) time(&t) );

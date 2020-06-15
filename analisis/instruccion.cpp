@@ -73,3 +73,9 @@ void instruccion::crearCarpetas(QString name){
     guardar=guardar+"\"";
     system(guardar.toUtf8().constData());
 }
+int instruccion::getTamReal(int num, QString letra){
+    if(letra=="k")       return num*1024;
+    else if (letra=="m") return num*1024*1024;
+    else if (letra=="b") return num;
+    return 0;
+}

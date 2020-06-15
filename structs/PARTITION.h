@@ -1,4 +1,4 @@
-#ifndef PARTITION_H
+    #ifndef PARTITION_H
 #define PARTITION_H
 
 struct PARTITION{
