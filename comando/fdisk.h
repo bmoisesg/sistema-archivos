@@ -5,6 +5,11 @@
 #include "fstream"
 #include "QVariant"
 
+struct espacion_disponibles_disco{
+    QList<int> lista_inicio;
+    QList<int> lista_fin;
+    QList<int> lista_espacio_disponible;
+};
 
 
 class fdisk:public instruccion
@@ -32,6 +37,8 @@ public:
 
     MBR elMBR;
     vector <PARTITION> listaParticiones_tmp;
+    espacion_disponibles_disco get_espacios_disponibles();
+
 
 };
 

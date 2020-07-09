@@ -4,6 +4,7 @@ fdisk::fdisk(lista_parametros entrando)
 {
     this->parametros= entrando.list_parametro;
 }
+
 void fdisk::ejecutar(){
 
     imprimir("\t->fdisk");
@@ -47,7 +48,7 @@ void fdisk::ejecutar(){
     lista_particion_inicio.push_back(elMBR.mbr_tam);
     lista_particion_fin.push_back(elMBR.mbr_tam);
 
-    /*
+/*
     lista_particion_inicio.push_back(152);
     lista_particion_fin.push_back(155);
     lista_particion_inicio.push_back(155);
@@ -62,7 +63,7 @@ void fdisk::ejecutar(){
     qSort(lista_particion_fin.begin(), lista_particion_fin.end());
     qSort(lista_particion_inicio.begin(),lista_particion_inicio.end());
 
-   /* imprimir("-----lista de particiones");
+    /* imprimir("-----lista de particiones");
     cout<<lista_particion_inicio.length()<<endl;
     for(int x=0;x<lista_particion_inicio.length();x++ ){
         cout<<lista_particion_inicio.at(x)<<","<<lista_particion_fin.at(x)<<endl;
@@ -137,6 +138,34 @@ void fdisk::algoritmo_ajuste_ff(){
 
 }
 
+void fdisk::algoritmo_ajuste_bf(){
+    espacion_disponibles_disco espacion= get_espacios_disponibles();
+    QList<int> lista_particiones_libre_inicio= espacion.lista_inicio;
+    QList<int> lista_espacio_disponible= espacion.lista_espacio_disponible;
+
+    //buscar el numero mas pequeño de la lista
+    int numero= lista_espacio_disponible.at(0);
+    for(int x=0; x<lista_espacio_disponible.length();x++){
+        if(lista_espacio_disponible.at(x)<=numero) numero= lista_espacio_disponible.at(x);
+    }
+    //cout<<"posicion donde se colocara: "<<espacion.lista_inicio.at(lista_espacio_disponible.indexOf(numero))<<endl;
+    escribir_particion_en(espacion.lista_inicio.at(lista_espacio_disponible.indexOf(numero)));
+}
+
+void fdisk::algoritmo_ajuste_wf(){
+    espacion_disponibles_disco espacion= get_espacios_disponibles();
+    QList<int> lista_particiones_libre_inicio= espacion.lista_inicio;
+    QList<int> lista_espacio_disponible= espacion.lista_espacio_disponible;
+
+    //buscar el numero mas grande de la lista
+    int numero= lista_espacio_disponible.at(0);
+    for(int x=0; x<lista_espacio_disponible.length();x++){
+        if(lista_espacio_disponible.at(x)>=numero) numero= lista_espacio_disponible.at(x);
+    }
+    //cout<<"posicion donde se colocara: "<<espacion.lista_inicio.at(lista_espacio_disponible.indexOf(numero))<<endl;
+    escribir_particion_en(espacion.lista_inicio.at(lista_espacio_disponible.indexOf(numero)));
+}
+
 void fdisk::escribir_particion_en(int ref){
     for(int x=0;x<4;x++){
         if(listaParticiones_tmp.at(x).part_status=='0')
@@ -162,5 +191,32 @@ void fdisk::escribir_particion_en(int ref){
     cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> tipo:<"<<this->type.toUtf8().constData()<<"> succesful c:"<<endl;
 }
 
-void fdisk::algoritmo_ajuste_bf(){}
-void fdisk::algoritmo_ajuste_wf(){}
+espacion_disponibles_disco fdisk::get_espacios_disponibles(){
+
+    QList<int> lista_particiones_libre_inicio, lista_particiones_libre_fin;
+    //la lista se usaran son las de lista_particion_fin y lista_particion_inicio, las cuales ya estan ordenadas
+    int referencia=sizeof (MBR);//152
+    for(int x=0; x<lista_particion_fin.length()-1;x++){
+        if(lista_particion_inicio.at(x+1)==referencia){
+            referencia= lista_particion_fin.at(x+1);
+        }else{
+            if(referencia+size-1<lista_particion_inicio.at(x+1)){
+                lista_particiones_libre_inicio.push_back(lista_particion_fin.at(x));
+                lista_particiones_libre_fin.push_back(lista_particion_inicio.at(x+1));
+            }
+            referencia=lista_particion_fin.at(x+1);
+            continue;
+        }
+    }
+    /*for(int x=0; x<lista_particiones_libre_fin.length();x++){
+        cout<<lista_particiones_libre_inicio.at(x)<<"-"<<lista_particiones_libre_fin.at(x)<<endl;
+    }*/
+    QList<int>lista_espacio_disponible;
+    for(int x=0; x<lista_particiones_libre_inicio.length();x++){
+        lista_espacio_disponible.push_back(lista_particiones_libre_fin.at(x)-lista_particiones_libre_inicio.at(x));
+    }
+    return {lista_particiones_libre_inicio,
+                lista_particiones_libre_fin,
+                lista_espacio_disponible};
+
+}
