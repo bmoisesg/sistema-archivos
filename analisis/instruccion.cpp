@@ -48,7 +48,7 @@ int instruccion::getParametro_int(QString nombre)
     return -1;
 }
 
-bool instruccion::tieneQueSer(QString nombre, QList<QString> lista){
+bool instruccion::si_es_tiene_que_tener(QString nombre, QList<QString> lista){
 
     QString valor= getParametro(nombre);
     bool flag=false;
@@ -60,8 +60,8 @@ bool instruccion::tieneQueSer(QString nombre, QList<QString> lista){
     return false;
 }
 
-void instruccion::imprimirErrorParametro(QString nombre){
-        imprimir("ERROR, parametro "+nombre+" no valido");
+void instruccion::imprimirErrorParametro(QString contenido){
+        imprimir("ERROR, parametro "+contenido+" no valido");
 }
 
 void instruccion::crearCarpetas(QString name){

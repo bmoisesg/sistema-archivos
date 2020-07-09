@@ -7,11 +7,8 @@ rmdisk::rmdisk(lista_parametros in)
 void rmdisk::ejecutar()
 {
     imprimir("\t->rmdisk");
-    if(!revisarExitanParametros({"path"})){
-        return;
-    }
+    if(!revisarExitanParametros({"path"}))return;
     this->path= getParametro("path");
-
     while(true){
         imprimir("\tseguro que queiere eliminar el disco?[S/N]");
         int num=getchar();
@@ -24,6 +21,6 @@ void rmdisk::ejecutar()
     }
     QString comando="rm \""+path+"\"";
     system(comando.toUtf8().constData());
-    imprimir("[RMDISK] terminado");
+    imprimir("[RMDISK] <"+path+"> eliminado :s");
 
 }

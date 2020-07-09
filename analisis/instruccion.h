@@ -17,10 +17,11 @@ public:
     bool revisarParametro(QString nombre);
     QString getParametro(QString nombre);
     int getParametro_int(QString nombre);
-    bool tieneQueSer(QString,QList<QString>);
+    bool si_es_tiene_que_tener(QString,QList<QString>);
     void imprimirErrorParametro(QString nombre);
     void crearCarpetas(QString name);
     int getTamReal(int, QString);
+    enum valor{size,paht};
 };
 
 #endif // INSTRUCCION_H

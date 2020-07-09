@@ -3,6 +3,8 @@
 #include "analisis/instruccion.h"
 #include "structs/MBR.h"
 #include "fstream"
+#include "QVariant"
+
 
 
 class fdisk:public instruccion
@@ -22,10 +24,13 @@ public:
     fdisk(lista_parametros);
     void ejecutar();
     int getVecesExisteExtendida(vector <PARTITION>);
-    void set_info_en_particion_vacia(int);
+    void escribir_particion_en(int);
     int getNumeroParticionesOcupadas(vector <PARTITION>);
-    void algoritmo_ajuste_rapido(MBR);
+    void algoritmo_ajuste_wf();
+    void algoritmo_ajuste_bf();
+    void algoritmo_ajuste_ff();
 
+    MBR elMBR;
     vector <PARTITION> listaParticiones_tmp;
 
 };

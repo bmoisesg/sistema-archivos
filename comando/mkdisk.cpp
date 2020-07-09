@@ -16,12 +16,12 @@ void mkdisk::ejecutar(){
     }
     this->path= getParametro("path");
     if(revisarParametro("fit")){
-        if(tieneQueSer("fit",{"bf","ff","wf"})) {
+        if(si_es_tiene_que_tener("fit",{"bf","ff","wf"})) {
             this->fit=getParametro("fit");
         }else return;
     }
     if(revisarParametro("unit")){
-        if(tieneQueSer("unit",{"k","m"})){
+        if(si_es_tiene_que_tener("unit",{"k","m"})){
             this->unit=getParametro("unit");
         }else return;
     }
@@ -32,8 +32,6 @@ void mkdisk::ejecutar(){
     imprimir("\tunit ->"+unit+"\n\n");*/
     crearCarpetas(path);
     ofstream archivo (this->path.toUtf8(),ios::binary);
-
-
     if(archivo.is_open()){
 
         int tamReal=getTamReal(size,unit);
@@ -61,11 +59,11 @@ void mkdisk::ejecutar(){
         file.seekp(0);
         file.write(reinterpret_cast<char*>(&newMBR),sizeof(MBR));
         file.close();
-        cout<<"[MKDISK] sucesful c:"<<endl;
+        cout<<"[MKDISK] "<<path.toUtf8().constData()<<" sucesful c:"<<endl;
 
         return;
     }else{
-        imprimir("[MKDISK] ERROR en la ruta del archivo, no lo encontro:"+this->path);
+        imprimir("ERROR en la ruta del archivo, no lo encontro: "+this->path);
     }
 
 

@@ -1,8 +1,15 @@
-|mkdisk -Size=3  -path=/home/bmoi6/salidas/disco1.disk -fit=wf -unit=k
+mkdisk -Size=3  -path=/home/bmoi6/salidas/disco1.disk -fit=wf -unit=k
 mkdisk -Size=2  -path=/home/bmoi6/salidas/disco2.disk -fit=ff -unit=m
 mkdisk -Size=1  -path=/home/bmoi6/salidas/extra/disco3.disk -fit=ff -unit=k
 mkdisk -Size=1  -path=/home/bmoi6/salidas/extra/disco4.disk -fit=bf -unit=m
 
-#rmdisk -path=/home/bmoi6/salidas/disco4.disk
-fdisk -name="particion1" -path=/home/bmoi6/salidas/disco1.disk -size=61 -unit=b -type=p -fit=ff
-#fdisk -name="safsa" -path=/home/bmoi6/salidas/disco4.disk -size=1 -fit=wf0 -type=e -unit=k
+#rmdisk -path=/home/bmoi6/salidas/extra/disco4.disk
+fdisk -name="particion1" -path=/home/bmoi6/salidas/disco1.disk -size=10 -unit=b -type=p -fit=ff
+fdisk -name="particion2" -path=/home/bmoi6/salidas/disco1.disk -size=69 -unit=b -type=p -fit=ff
+fdisk -name="particion3" -path=/home/bmoi6/salidas/disco1.disk -size=9 -unit=b -type=p -fit=ff
+#fdisk -name="particion4" -path=/home/bmoi6/salidas/disco1.disk -size=4 -unit=b -type=p -fit=ff
+
+fdisk -name="particion1" -path=/home/bmoi6/salidas/disco2.disk -size=10 -unit=b -type=p -fit=ff
+fdisk -name="particion2" -path=/home/bmoi6/salidas/disco2.disk -size=69 -unit=b -type=p -fit=ff
+fdisk -name="particion3" -path=/home/bmoi6/salidas/disco2.disk -size=9 -unit=b -type=p -fit=ff
+fdisk -name="particion4" -path=/home/bmoi6/salidas/disco2.disk -size=4 -unit=b -type=p -fit=ff
