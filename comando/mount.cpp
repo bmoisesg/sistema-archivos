@@ -1,8 +1,8 @@
 #include "mount.h"
 
-mount::mount()
+mount::mount(lista_parametros entrando)
 {
-
+    this->parametros= entrando.list_parametro;
 }
 
 void mount::ejecutar(){

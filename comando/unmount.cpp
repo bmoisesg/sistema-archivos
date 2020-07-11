@@ -1,8 +1,8 @@
 #include "unmount.h"
 
-unmount::unmount()
+unmount::unmount(lista_parametros entrando)
 {
-
+    this->parametros=entrando.list_parametro;
 }
 void unmount::ejecutar()
 {

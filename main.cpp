@@ -17,5 +17,6 @@ int main()
     for(instruccion *x:raiz->comandos){
         x->ejecutar();
     }
+    cout<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl;
     return 0;
 }

@@ -5,7 +5,7 @@
 class unmount:public instruccion
 {
 public:
-    unmount();
+    unmount(lista_parametros);
     void ejecutar() ;
 };
 

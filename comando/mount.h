@@ -5,7 +5,7 @@
 class mount: public instruccion
 {
 public:
-    mount();
+    mount(lista_parametros);
     void ejecutar() ;
 };
 

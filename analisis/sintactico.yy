@@ -11,8 +11,7 @@
     #include "comando/fdisk.h"
     #include "comando/mkdisk.h"
     #include "comando/mount.h"
-    #include "comando/repdisk.h"
-    #include "comando/repmbr.h"
+    #include "comando/rep.h"
     #include "comando/rmdisk.h"
     #include "comando/unmount.h"
 
@@ -188,9 +187,10 @@ COMANDO:
         rMkdisk   LISTA_PARAMETRO {$$= new mkdisk(*$2);}
         |rRmdisk  LISTA_PARAMETRO {$$= new rmdisk(*$2);}
         |rFdisck  LISTA_PARAMETRO {$$= new fdisk(*$2);}
-        |rMount   LISTA_PARAMETRO {$$= new mount();}
-        |rUnmount LISTA_PARAMETRO {$$= new unmount();}
+        |rMount   LISTA_PARAMETRO {$$= new mount(*$2);}
+        |rUnmount LISTA_PARAMETRO {$$= new unmount(*$2);}
         |rExec    LISTA_PARAMETRO {$$= new exec(*$2);}
-;
+        |rRep     LISTA_PARAMETRO {$$= new _IOS_NOREPLACE(*$2);}
+
 
 %%

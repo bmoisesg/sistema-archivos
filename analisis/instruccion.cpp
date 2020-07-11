@@ -79,3 +79,35 @@ int instruccion::getTamReal(int num, QString letra){
     else if (letra=="b") return num;
     return 0;
 }
+bool instruccion::pregunta_seguridad_para_eliminar(){
+    while(true){
+        cout<<"\tseguro que queiere eliminar?[S/N]";
+        int num=getchar();
+        cin.ignore();
+        if(num==83|| num==115){//s
+            return true;
+        }else if(num==78|| num==110){//n
+            return false;
+        }
+    }
+}
+MBR instruccion::getMBR(QString ruta){
+    //traer el mbr que esta escrito en el disco
+    MBR elMBR;
+    ifstream archivo(ruta.toUtf8());
+    if(archivo.is_open())
+    {
+        archivo.seekg(0,ios::beg);
+        archivo.read(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
+        archivo.close();
+    }else
+    {
+        imprimir("error, <path> no valida");
+        return elMBR;
+    }
+    return elMBR;
+}
+void instruccion::ejecutar_comando(QString contenido){
+
+    system(contenido.toUtf8().constData());
+}

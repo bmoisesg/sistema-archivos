@@ -8,83 +8,95 @@ fdisk::fdisk(lista_parametros entrando)
 void fdisk::ejecutar(){
 
     imprimir("\t->fdisk");
-    if(!revisarExitanParametros({"path","name","size"})) return;
-    if(revisarParametro("unit")) { if(si_es_tiene_que_tener("unit",{"b","k","m"})) this->unit=getParametro("unit"); else return;}
-    if(revisarParametro("type")) { if(si_es_tiene_que_tener("type",{"p","e","l"})) this->type=getParametro("type"); else return;}
-    if(revisarParametro("fit")) { if(si_es_tiene_que_tener("fit",{"bf","ff","wf"})) this->fit= getParametro("fit"); else return;}
-    this->path= getParametro("path");
-    this->name=getParametro("name");
-    this->size= getTamReal(getParametro_int("size"),unit);
+    if(!revisarParametro("delete")){
+        if(!revisarExitanParametros({"path","name","size"})) return;
+        if(revisarParametro("unit")) { if(si_es_tiene_que_tener("unit",{"b","k","m"})) this->unit=getParametro("unit"); else return;}
+        if(revisarParametro("type")) { if(si_es_tiene_que_tener("type",{"p","e","l"})) this->type=getParametro("type"); else return;}
+        if(revisarParametro("fit")) { if(si_es_tiene_que_tener("fit",{"bf","ff","wf"})) this->fit= getParametro("fit"); else return;}
+        this->path= getParametro("path");
+        this->name=getParametro("name");
+        this->size= getTamReal(getParametro_int("size"),unit);
 
 
-    ifstream archivo(path.toUtf8());
-    if(archivo.is_open())
-    {
-        archivo.seekg(0,ios::beg);
-        archivo.read(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
-        archivo.close();
-    }else
-    {
-        imprimir("[FDISK] error, <path> no valida");
-        return;
-    }
-
-    listaParticiones_tmp.push_back(elMBR.mbr_partition1);
-    listaParticiones_tmp.push_back(elMBR.mbr_partition2);
-    listaParticiones_tmp.push_back(elMBR.mbr_partition3);
-    listaParticiones_tmp.push_back(elMBR.mbr_partition4);
-    if(type=='e'){
-        if(getVecesExisteExtendida(listaParticiones_tmp)>0){
-            imprimir("ERROR, no es posible hacer una particion extendida <"+name+"> ya existe una extendida en este disco");
+        ifstream archivo(path.toUtf8());
+        if(archivo.is_open())
+        {
+            archivo.seekg(0,ios::beg);
+            archivo.read(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
+            archivo.close();
+        }else
+        {
+            imprimir("[FDISK] error, <path> no valida");
             return;
         }
+
+        listaParticiones_tmp.push_back(elMBR.mbr_partition1);
+        listaParticiones_tmp.push_back(elMBR.mbr_partition2);
+        listaParticiones_tmp.push_back(elMBR.mbr_partition3);
+        listaParticiones_tmp.push_back(elMBR.mbr_partition4);
+        if(type=='e'){
+            if(getVecesExisteExtendida(listaParticiones_tmp)>0){
+                imprimir("ERROR, no es posible hacer una particion extendida <"+name+"> ya existe una extendida en este disco");
+                return;
+            }
+        }
+        if(getNumeroParticionesOcupadas(listaParticiones_tmp)>=4){
+            imprimir("ERROR, no es posible crear la particion <"+name+"> porque ya existen 4 particiones en este disco");
+            return;
+        }
+
+
+        lista_particion_inicio.push_back(elMBR.mbr_tam);
+        lista_particion_fin.push_back(elMBR.mbr_tam);
+
+        qSort(lista_particion_fin.begin(), lista_particion_fin.end());
+        qSort(lista_particion_inicio.begin(),lista_particion_inicio.end());
+
+
+        if      (fit=="ff")algoritmo_ajuste_ff();
+        else if (fit=="bf")algoritmo_ajuste_bf();
+        else if (fit=="wf")algoritmo_ajuste_wf();
+
+    }else{
+        if(!revisarExitanParametros({"path","name"})) return;
+        this->name=getParametro("name");
+        this->path=getParametro("path");
+        if(!si_es_tiene_que_tener("delete",{"full","fast"})) return;
+        if(!pregunta_seguridad_para_eliminar()){
+            imprimir("[FDISK] terminado c:");
+            return;
+        }
+
+        //traer el mbr que esta escrito en el disco
+        elMBR=getMBR(path);
+
+         listaParticiones_tmp.push_back(elMBR.mbr_partition1);
+         listaParticiones_tmp.push_back(elMBR.mbr_partition2);
+         listaParticiones_tmp.push_back(elMBR.mbr_partition3);
+         listaParticiones_tmp.push_back(elMBR.mbr_partition4);
+
+         int posicion=-1;
+         for(int x=0;x<4;x++){
+            if(listaParticiones_tmp.at(x).part_name==name){
+                posicion=x;
+            }
+         }
+         if(posicion==-1){
+             imprimir("ERROR, no se encuentra una particion con el nombre <"+name+">");
+             return;
+         }
+         listaParticiones_tmp.at(posicion).part_status='0';
+         elMBR.mbr_partition1= listaParticiones_tmp.at(0);
+         elMBR.mbr_partition2= listaParticiones_tmp.at(1);
+         elMBR.mbr_partition3= listaParticiones_tmp.at(2);
+         elMBR.mbr_partition4= listaParticiones_tmp.at(3);
+
+         ofstream file( path.toUtf8(), ios::in | ios::out | ios::binary);
+         file.seekp(0);
+         file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
+         file.close();
+         cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> eliminado c:"<<endl;
     }
-    if(getNumeroParticionesOcupadas(listaParticiones_tmp)>=4){
-        imprimir("ERROR, no es posible crear la particion <"+name+"> porque ya existen 4 particiones en este disco");
-        return;
-    }
-
-
-    lista_particion_inicio.push_back(elMBR.mbr_tam);
-    lista_particion_fin.push_back(elMBR.mbr_tam);
-
-/*
-    lista_particion_inicio.push_back(152);
-    lista_particion_fin.push_back(155);
-    lista_particion_inicio.push_back(155);
-    lista_particion_fin.push_back(190);
-    lista_particion_inicio.push_back(250);
-    lista_particion_fin.push_back(255);
-    lista_particion_inicio.push_back(255);
-    lista_particion_fin.push_back(261);
-    lista_particion_inicio.push_back(2700);
-    lista_particion_fin.push_back(2780);*/
-
-    qSort(lista_particion_fin.begin(), lista_particion_fin.end());
-    qSort(lista_particion_inicio.begin(),lista_particion_inicio.end());
-
-    /* imprimir("-----lista de particiones");
-    cout<<lista_particion_inicio.length()<<endl;
-    for(int x=0;x<lista_particion_inicio.length();x++ ){
-        cout<<lista_particion_inicio.at(x)<<","<<lista_particion_fin.at(x)<<endl;
-    }
-    imprimir("-----\n");*/
-
-    if      (fit=="ff")algoritmo_ajuste_ff();
-    else if (fit=="bf")algoritmo_ajuste_bf();
-    else if (fit=="wf")algoritmo_ajuste_wf();
-
-    /*for(PARTITION x: listaParticiones_tmp){
-
-        imprimir("------");
-        cout<<x.part_status<<endl;
-        cout<<x.part_type<<endl;
-        cout<<x.part_fit<<endl;
-        cout<<x.part_size<<endl;
-        cout<<x.part_start<<endl;
-        cout<<x.part_name<<endl;
-        imprimir("------");
-    }*/
 }
 
 int fdisk::getVecesExisteExtendida(vector <PARTITION> lista){

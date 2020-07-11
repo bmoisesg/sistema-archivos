@@ -5,6 +5,8 @@
 #include "QList"
 #include "parametro.h"
 #include "lista_parametros.h"
+#include "structs/MBR.h"
+#include "fstream"
 using namespace std;
 
 class instruccion{
@@ -22,6 +24,9 @@ public:
     void crearCarpetas(QString name);
     int getTamReal(int, QString);
     enum valor{size,paht};
+    bool pregunta_seguridad_para_eliminar();
+    MBR getMBR(QString ruta);
+    void ejecutar_comando(QString);
 };
 
 #endif // INSTRUCCION_H
