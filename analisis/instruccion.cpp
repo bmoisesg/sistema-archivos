@@ -111,3 +111,32 @@ void instruccion::ejecutar_comando(QString contenido){
 
     system(contenido.toUtf8().constData());
 }
+vector<PARTITION> instruccion::getPartionesOrdenaas(MBR elMBR){
+
+    vector <PARTITION> listaParticiones_tmp;
+    if (elMBR.mbr_partition1.part_status=='1')listaParticiones_tmp.push_back(elMBR.mbr_partition1);
+    if (elMBR.mbr_partition2.part_status=='1')listaParticiones_tmp.push_back(elMBR.mbr_partition2);
+    if (elMBR.mbr_partition3.part_status=='1')listaParticiones_tmp.push_back(elMBR.mbr_partition3);
+    if (elMBR.mbr_partition4.part_status=='1')listaParticiones_tmp.push_back(elMBR.mbr_partition4);
+
+    if(listaParticiones_tmp.size()>1){
+        while (true) {
+            bool flag=true;
+            for(int x=0; x<listaParticiones_tmp.size()-1;x++){
+                if(listaParticiones_tmp.at(x).part_start>listaParticiones_tmp.at(x+1).part_start){
+                    PARTITION tmp= listaParticiones_tmp.at(x);
+                    listaParticiones_tmp.at(x)=listaParticiones_tmp.at(x+1);
+                    listaParticiones_tmp.at(x+1)=tmp;
+                }
+            }
+            for(int x=0; x<listaParticiones_tmp.size()-1;x++){
+                if(listaParticiones_tmp.at(x).part_start>listaParticiones_tmp.at(x+1).part_start)flag=false;
+            }
+            if(flag)break;
+        }
+    }
+    PARTITION nuevo;
+    nuevo.part_start=elMBR.mbr_tam;
+    listaParticiones_tmp.push_back(nuevo);
+    return listaParticiones_tmp;
+}

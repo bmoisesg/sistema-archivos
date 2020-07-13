@@ -11,8 +11,19 @@ fdisk -name="particion2" -path=/home/bmoi6/salidas/disco1.disk -size=730 -unit=b
 fdisk -name="particion3" -path=/home/bmoi6/salidas/disco1.disk -size=730 -unit=b -type=p -fit=ff
 fdisk -name="particion4" -path=/home/bmoi6/salidas/disco1.disk -size=7 -unit=b -type=p -fit=ff
 
-rep -name="disk" -path=/home/bmoi6/salidas/dis1.png -id=/home/bmoi6/salidas/disco1.disk
-#rep -name="mbr" -path=/home/bmoi6/salidas/dis1.png -id=/home/bmoi6/salidas/disco1.disk
+rep -name="mbr" -path=/home/bmoi6/salidas/dis1.png -id=/home/bmoi6/salidas/disco1.disk
+rep -name="disk" -path=/home/bmoi6/salidas/dis1mbr.png -id=/home/bmoi6/salidas/disco1.disk
+
+fdisk -name="particion4" -path=/home/bmoi6/salidas/disco1.disk -add=723 -unit=b
+
+rep -name="mbr" -path=/home/bmoi6/salidas/dis11.png -id=/home/bmoi6/salidas/disco1.disk
+rep -name="disk" -path=/home/bmoi6/salidas/dis1mbr1.png -id=/home/bmoi6/salidas/disco1.disk
+
+fdisk -name="particion4" -path=/home/bmoi6/salidas/disco1.disk -add="-723" -unit=b
+
+rep -name="mbr" -path=/home/bmoi6/salidas/fin.png -id=/home/bmoi6/salidas/disco1.disk
+rep -name="disk" -path=/home/bmoi6/salidas/finmbr.png -id=/home/bmoi6/salidas/disco1.disk
+
 
 #eliminando una particion
 #fdisk -name="particion2" -path=/home/bmoi6/salidas/disco1.disk -delete=fast

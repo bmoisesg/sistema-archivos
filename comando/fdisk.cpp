@@ -8,7 +8,89 @@ fdisk::fdisk(lista_parametros entrando)
 void fdisk::ejecutar(){
 
     imprimir("\t->fdisk");
-    if(!revisarParametro("delete")){
+    if(revisarParametro("delete")){
+        if(!revisarExitanParametros({"path","name"})) return;
+        this->name=getParametro("name");
+        this->path=getParametro("path");
+        if(!si_es_tiene_que_tener("delete",{"full","fast"})) return;
+        if(!pregunta_seguridad_para_eliminar()){
+            imprimir("[FDISK] terminado c:");
+            return;
+        }
+        //traer el mbr que esta escrito en el disco
+        elMBR=getMBR(path);
+
+        listaParticiones_tmp.push_back(elMBR.mbr_partition1);
+        listaParticiones_tmp.push_back(elMBR.mbr_partition2);
+        listaParticiones_tmp.push_back(elMBR.mbr_partition3);
+        listaParticiones_tmp.push_back(elMBR.mbr_partition4);
+
+        int posicion=-1;
+        for(int x=0;x<4;x++){
+            if(listaParticiones_tmp.at(x).part_name==name){
+                posicion=x;
+            }
+        }
+        if(posicion==-1){
+            imprimir("ERROR, no se encuentra una particion con el nombre <"+name+">");
+            return;
+        }
+        listaParticiones_tmp.at(posicion).part_status='0';
+        elMBR.mbr_partition1= listaParticiones_tmp.at(0);
+        elMBR.mbr_partition2= listaParticiones_tmp.at(1);
+        elMBR.mbr_partition3= listaParticiones_tmp.at(2);
+        elMBR.mbr_partition4= listaParticiones_tmp.at(3);
+
+        ofstream file( path.toUtf8(), ios::in | ios::out | ios::binary);
+        file.seekp(0);
+        file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
+        file.close();
+        cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> eliminado c:"<<endl;
+
+
+
+    }else if(revisarParametro("add")){
+        if(!revisarExitanParametros({"unit","path","name"}))return;
+        if(!si_es_tiene_que_tener("unit",{"k","b","m"})) return;
+        this->name= getParametro("name");
+        this->path= getParametro("path");
+        this->size= getTamReal(getParametro_int("add"),getParametro("unit"));
+
+        elMBR= getMBR(path);
+        vector <PARTITION> lista_particiones=getPartionesOrdenaas(elMBR);
+        bool posicion=false;
+        for (int x=0;x<lista_particiones.size()-1;x++) {
+            if(lista_particiones.at(x).part_status=='1'&&
+                    lista_particiones.at(x).part_name==name){
+                int empieza=lista_particiones.at(x).part_start;
+                int tamano_particion=lista_particiones.at(x).part_size;
+                  if(tamano_particion+empieza-1+size<lista_particiones.at(x+1).part_start
+                        &&tamano_particion+empieza-1+size>lista_particiones.at(x).part_start){
+                    lista_particiones.at(x).part_size=tamano_particion+size;
+                    posicion=true;
+                    break;
+                }else{
+                    imprimir("Error la particion que se le quiere agregar es muy grande o muuy corta <"+name+">");
+                    return;
+                }
+            }
+        }
+        if(!posicion){
+            imprimir("no encontre la particion <"+name+">");
+        }
+        elMBR.mbr_partition1=lista_particiones.at(0);
+        elMBR.mbr_partition2=lista_particiones.at(1);
+        elMBR.mbr_partition3=lista_particiones.at(2);
+        elMBR.mbr_partition4=lista_particiones.at(3);
+        //solo se tiene ques setear el mbr
+        ofstream file( path.toUtf8(), ios::in | ios::out | ios::binary);
+        file.seekp(0);
+        file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
+        file.close();
+        cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> se agrego a la particion succesful c:"<<endl;
+
+    }else{
+
         if(!revisarExitanParametros({"path","name","size"})) return;
         if(revisarParametro("unit")) { if(si_es_tiene_que_tener("unit",{"b","k","m"})) this->unit=getParametro("unit"); else return;}
         if(revisarParametro("type")) { if(si_es_tiene_que_tener("type",{"p","e","l"})) this->type=getParametro("type"); else return;}
@@ -56,46 +138,6 @@ void fdisk::ejecutar(){
         if      (fit=="ff")algoritmo_ajuste_ff();
         else if (fit=="bf")algoritmo_ajuste_bf();
         else if (fit=="wf")algoritmo_ajuste_wf();
-
-    }else{
-        if(!revisarExitanParametros({"path","name"})) return;
-        this->name=getParametro("name");
-        this->path=getParametro("path");
-        if(!si_es_tiene_que_tener("delete",{"full","fast"})) return;
-        if(!pregunta_seguridad_para_eliminar()){
-            imprimir("[FDISK] terminado c:");
-            return;
-        }
-
-        //traer el mbr que esta escrito en el disco
-        elMBR=getMBR(path);
-
-         listaParticiones_tmp.push_back(elMBR.mbr_partition1);
-         listaParticiones_tmp.push_back(elMBR.mbr_partition2);
-         listaParticiones_tmp.push_back(elMBR.mbr_partition3);
-         listaParticiones_tmp.push_back(elMBR.mbr_partition4);
-
-         int posicion=-1;
-         for(int x=0;x<4;x++){
-            if(listaParticiones_tmp.at(x).part_name==name){
-                posicion=x;
-            }
-         }
-         if(posicion==-1){
-             imprimir("ERROR, no se encuentra una particion con el nombre <"+name+">");
-             return;
-         }
-         listaParticiones_tmp.at(posicion).part_status='0';
-         elMBR.mbr_partition1= listaParticiones_tmp.at(0);
-         elMBR.mbr_partition2= listaParticiones_tmp.at(1);
-         elMBR.mbr_partition3= listaParticiones_tmp.at(2);
-         elMBR.mbr_partition4= listaParticiones_tmp.at(3);
-
-         ofstream file( path.toUtf8(), ios::in | ios::out | ios::binary);
-         file.seekp(0);
-         file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
-         file.close();
-         cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> eliminado c:"<<endl;
     }
 }
 

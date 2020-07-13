@@ -27,6 +27,7 @@ public:
     bool pregunta_seguridad_para_eliminar();
     MBR getMBR(QString ruta);
     void ejecutar_comando(QString);
+    vector <PARTITION> getPartionesOrdenaas(MBR);
 };
 
 #endif // INSTRUCCION_H
