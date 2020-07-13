@@ -6,6 +6,7 @@
 #include "parametro.h"
 #include "lista_parametros.h"
 #include "structs/MBR.h"
+#include "structs/EBR.h"
 #include "fstream"
 using namespace std;
 

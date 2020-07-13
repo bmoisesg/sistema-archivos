@@ -36,7 +36,7 @@ void fdisk::ejecutar(){
                         fseek(limpiarParticion,xx,SEEK_SET);
                         fputs("0",limpiarParticion);
                     }
-                    imprimir("Llene de 0's desde la posicion:"+QString::number(listaParticiones_tmp.at(x).part_start)+"-"+QString::number(listaParticiones_tmp.at(x).part_start+listaParticiones_tmp.at(x).part_size-1));
+                    imprimir("\tLlene de 0's desde la posicion:"+QString::number(listaParticiones_tmp.at(x).part_start)+"-"+QString::number(listaParticiones_tmp.at(x).part_start+listaParticiones_tmp.at(x).part_size-1));
                     fclose(limpiarParticion);
                 }
             }
@@ -178,6 +178,7 @@ int fdisk::getNumeroParticionesOcupadas(vector<PARTITION>lista){
 void fdisk::algoritmo_ajuste_ff(){
 
     //la lista se usaran son las de lista_particion_fin y lista_particion_inicio, las cuales ya estan ordenadas
+
     int referencia=sizeof (MBR);//152
     for(int x=0; x<lista_particion_fin.length()-1;x++){
         if(lista_particion_inicio.at(x+1)==referencia){

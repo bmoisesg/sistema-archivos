@@ -6,6 +6,11 @@ unmount::unmount(lista_parametros entrando)
 }
 void unmount::ejecutar()
 {
-    imprimir("estoy en el comando unmont");
+    imprimir("\t->unmount");
+    if(!revisarExitanParametros({"id"}))return;
+    this->id=getParametro("id");
+    lista_particiones_montadas *unmont= lista_particiones_montadas::getInstance();
+    unmont->eliminar(id);
+    imprimir("[UNMOUNT] terminado");
 
 }

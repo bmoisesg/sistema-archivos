@@ -8,7 +8,8 @@ void rep::ejecutar(){
     imprimir("\t->rep");
     if(!revisarExitanParametros({"name","path","id"})) return;
     if(!si_es_tiene_que_tener("name",{"mbr","disk"})) return;
-    this->id=getParametro("id");
+        lista_particiones_montadas *particiones_montadas= lista_particiones_montadas::getInstance();
+    this->id=particiones_montadas->getPath(getParametro("id"));
     this->name=getParametro("name");
     this->path=getParametro("path");
 
