@@ -190,7 +190,7 @@ COMANDO:
         |rMount   LISTA_PARAMETRO {$$= new mount(*$2);}
         |rUnmount LISTA_PARAMETRO {$$= new unmount(*$2);}
         |rExec    LISTA_PARAMETRO {$$= new exec(*$2);}
-        |rRep     LISTA_PARAMETRO {$$= new _IOS_NOREPLACE(*$2);}
+        |rRep     LISTA_PARAMETRO {$$= new rep(*$2);}
 
 
 %%

@@ -68,5 +68,5 @@ void rep::ejecutar(){
 
     ejecutar_comando("dot -Tpng grafica_rep.dot -o "+path);
     ejecutar_comando("shotwell "+path);
-    imprimir("[REP] terminado");
+    imprimir("[REP] <"+name+"> del disco <"+id+"> guardado en <"+path+"> terminado");
 }

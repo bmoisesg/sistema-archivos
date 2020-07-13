@@ -77,7 +77,7 @@ rChgrp  "chgrp"
 
 punto "."
 
-er_number   [0-9]+
+er_number   "-"?[0-9]+
 er_id       [a-z][a-zA-Z_0-9]*
 er_cadena   "\""[^"\""]*"\""
 er_path     ("/"[a-zA-Z0-9]+)+("."[a-zA-Z]+)?

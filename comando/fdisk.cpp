@@ -29,6 +29,16 @@ void fdisk::ejecutar(){
         for(int x=0;x<4;x++){
             if(listaParticiones_tmp.at(x).part_name==name){
                 posicion=x;
+                if(getParametro("delete")=="full"){
+                    FILE *limpiarParticion;
+                    limpiarParticion=fopen(path.toUtf8().constData(),"rb+");
+                    for (int xx=listaParticiones_tmp.at(x).part_start;xx<listaParticiones_tmp.at(x).part_start+listaParticiones_tmp.at(x).part_size-1;xx++) {
+                        fseek(limpiarParticion,xx,SEEK_SET);
+                        fputs("0",limpiarParticion);
+                    }
+                    imprimir("Llene de 0's desde la posicion:"+QString::number(listaParticiones_tmp.at(x).part_start)+"-"+QString::number(listaParticiones_tmp.at(x).part_start+listaParticiones_tmp.at(x).part_size-1));
+                    fclose(limpiarParticion);
+                }
             }
         }
         if(posicion==-1){
@@ -45,9 +55,9 @@ void fdisk::ejecutar(){
         file.seekp(0);
         file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
         file.close();
+
+
         cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> eliminado c:"<<endl;
-
-
 
     }else if(revisarParametro("add")){
         if(!revisarExitanParametros({"unit","path","name"}))return;
@@ -64,7 +74,7 @@ void fdisk::ejecutar(){
                     lista_particiones.at(x).part_name==name){
                 int empieza=lista_particiones.at(x).part_start;
                 int tamano_particion=lista_particiones.at(x).part_size;
-                  if(tamano_particion+empieza-1+size<lista_particiones.at(x+1).part_start
+                if(tamano_particion+empieza-1+size<lista_particiones.at(x+1).part_start
                         &&tamano_particion+empieza-1+size>lista_particiones.at(x).part_start){
                     lista_particiones.at(x).part_size=tamano_particion+size;
                     posicion=true;

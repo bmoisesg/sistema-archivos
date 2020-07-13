@@ -5,28 +5,18 @@ mkdisk -Size=1  -path=/home/bmoi6/salidas/extra/disco4.disk -fit=ff -unit=m
 
 #rmdisk -path=/home/bmoi6/salidas/extra/disco4.disk
 
-
 fdisk -name="particion1" -path=/home/bmoi6/salidas/disco1.disk -size=730 -unit=b -type=p -fit=ff
 fdisk -name="particion2" -path=/home/bmoi6/salidas/disco1.disk -size=730 -unit=b -type=e -fit=ff
 fdisk -name="particion3" -path=/home/bmoi6/salidas/disco1.disk -size=730 -unit=b -type=p -fit=ff
 fdisk -name="particion4" -path=/home/bmoi6/salidas/disco1.disk -size=7 -unit=b -type=p -fit=ff
 
-rep -name="mbr" -path=/home/bmoi6/salidas/dis1.png -id=/home/bmoi6/salidas/disco1.disk
-rep -name="disk" -path=/home/bmoi6/salidas/dis1mbr.png -id=/home/bmoi6/salidas/disco1.disk
 
-fdisk -name="particion4" -path=/home/bmoi6/salidas/disco1.disk -add=723 -unit=b
-
-rep -name="mbr" -path=/home/bmoi6/salidas/dis11.png -id=/home/bmoi6/salidas/disco1.disk
-rep -name="disk" -path=/home/bmoi6/salidas/dis1mbr1.png -id=/home/bmoi6/salidas/disco1.disk
-
-fdisk -name="particion4" -path=/home/bmoi6/salidas/disco1.disk -add="-723" -unit=b
-
-rep -name="mbr" -path=/home/bmoi6/salidas/fin.png -id=/home/bmoi6/salidas/disco1.disk
-rep -name="disk" -path=/home/bmoi6/salidas/finmbr.png -id=/home/bmoi6/salidas/disco1.disk
+rep -name="mbr" -path=/home/bmoi6/salidas/1.png -id=/home/bmoi6/salidas/disco1.disk
+rep -name="disk" -path=/home/bmoi6/salidas/2.png -id=/home/bmoi6/salidas/disco1.disk
 
 
 #eliminando una particion
-#fdisk -name="particion2" -path=/home/bmoi6/salidas/disco1.disk -delete=fast
-#rep -name="disk" -path=/home/bmoi6/salidas/dis1.png -id=/home/bmoi6/salidas/disco1.disk
-#fdisk -name="particion6" -path=/home/bmoi6/salidas/disco1.disk -size=73 -unit=b -type=e -fit=bf
-#rep -name="disk" -path=/home/bmoi6/salidas/dis1.png -id=/home/bmoi6/salidas/disco1.disk
+fdisk -name="particion2" -path=/home/bmoi6/salidas/disco1.disk -delete=full
+
+rep -name="mbr" -path=/home/bmoi6/salidas/11.png -id=/home/bmoi6/salidas/disco1.disk
+rep -name="disk" -path=/home/bmoi6/salidas/22.png -id=/home/bmoi6/salidas/disco1.disk
