@@ -1,3 +1,4 @@
+mkdisk -Size=3  -path=/home/salidas/disco1.disk  -unit=k -fit=ff
 mkdisk -Size=3  -path=/home/bmoi6/salidas/disco1.disk  -unit=k
 mkdisk -Size=2  -path=/home/bmoi6/salidas/disco2.disk  -unit=m
 mkdisk -Size=1  -path=/home/bmoi6/salidas/extra/disco3.disk  -unit=k

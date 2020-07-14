@@ -8,7 +8,7 @@ exec::exec(lista_parametros recibiendo)
 void exec::ejecutar()
 {
     imprimir("\t->exec");
-    if(!revisarExitanParametros({"path","id"})){
+    if(!revisarExitanParametros({"path"})){
         return ;
     }
 

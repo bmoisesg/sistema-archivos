@@ -144,7 +144,7 @@ void fdisk::ejecutar(){
         qSort(lista_particion_fin.begin(), lista_particion_fin.end());
         qSort(lista_particion_inicio.begin(),lista_particion_inicio.end());
 
-
+        fit=elMBR.mbr_disk_fit;
         if      (fit=="ff")algoritmo_ajuste_ff();
         else if (fit=="bf")algoritmo_ajuste_bf();
         else if (fit=="wf")algoritmo_ajuste_wf();
