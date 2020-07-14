@@ -2,12 +2,12 @@
 
 comandos:
 ```
-*mkdisk
-*rmdisk
-*rep
-f*sdisk
-*mount
-*unmount
+* mkdisk
+* rmdisk
+* rep
+* fsdisk
+* mount
+* unmount
 ```
 run:
 
