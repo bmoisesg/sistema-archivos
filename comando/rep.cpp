@@ -8,7 +8,11 @@ void rep::ejecutar(){
     imprimir("\t->rep");
     if(!revisarExitanParametros({"name","path","id"})) return;
     if(!si_es_tiene_que_tener("name",{"mbr","disk"})) return;
-        lista_particiones_montadas *particiones_montadas= lista_particiones_montadas::getInstance();
+    lista_particiones_montadas *particiones_montadas= lista_particiones_montadas::getInstance();
+    if(!particiones_montadas->comprobar_existe(getParametro("id"))){
+        imprimir("ERROR no encontre la particion montada con el id <"+getParametro("id")+">");
+        return;
+    }
     this->id=particiones_montadas->getPath(getParametro("id"));
     this->name=getParametro("name");
     this->path=getParametro("path");
@@ -30,6 +34,9 @@ void rep::ejecutar(){
             QString tipo;
             if(listaParticiones_tmp.at(x).part_type=='p')tipo="primaria";
             if(listaParticiones_tmp.at(x).part_type=='e')tipo="extendida";
+            if(x==0 &&listaParticiones_tmp.at(x).part_start!=sizeof (MBR)){
+                  reporte_contenido= reporte_contenido+"<td>libre</td>";
+            }
 
             reporte_contenido= reporte_contenido+"<td><u><i>"+tipo+"</i></u><br/>"
                     +"<b>"+listaParticiones_tmp.at(x).part_name+"</b><br/>"

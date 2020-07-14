@@ -4,7 +4,7 @@
 #include "structs/MBR.h"
 #include "fstream"
 #include "QVariant"
-
+#include "singleton/lista_particiones_montadas.h"
 struct espacion_disponibles_disco{
     QList<int> lista_inicio;
     QList<int> lista_fin;

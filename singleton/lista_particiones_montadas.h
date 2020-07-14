@@ -1,9 +1,11 @@
 #ifndef LISTA_PARTICIONES_MONTADAS_H
 #define LISTA_PARTICIONES_MONTADAS_H
 #include "structs/MONTAR.h"
+#include "structs/MBR.h"
 #include "QString"
 #include "QList"
 #include "iostream"
+#include "fstream"
 using namespace std;
 
 class lista_particiones_montadas
@@ -21,6 +23,8 @@ public:
         void eliminar(QString id);
         char l='a';
         QString getPath(QString id);
+        QString getId(QString path,QString);
+        bool comprobar_existe(QString);
 };
 
 #endif // LISTA_PARTICIONES_MONTADAS_H

@@ -55,8 +55,15 @@ void fdisk::ejecutar(){
         file.seekp(0);
         file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
         file.close();
+        lista_particiones_montadas *unmont= lista_particiones_montadas::getInstance();
 
+        QString nombreParticionMontada=unmont->getId(path,name);
+        if(nombreParticionMontada!="Esta particion no estaba montada"){
+            unmont->eliminar(nombreParticionMontada);
+             imprimir("Esta particion si estaba montada");
+        }else{
 
+        }
         cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> eliminado c:"<<endl;
 
     }else if(revisarParametro("add")){

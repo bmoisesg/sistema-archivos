@@ -15,6 +15,25 @@ lista_particiones_montadas::lista_particiones_montadas(){
 
 void lista_particiones_montadas::agregar(QString buscarPATH, QString buscarName){
 
+    MBR elMBR;
+    ifstream archivo(buscarPATH.toUtf8());
+    if(archivo.is_open())
+    {
+        archivo.seekg(0,ios::beg);
+        archivo.read(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
+        archivo.close();
+    }
+    bool flag=false;
+    if(elMBR.mbr_partition1.part_status=='1' && elMBR.mbr_partition1.part_name==buscarName)flag=true;
+    if(elMBR.mbr_partition2.part_status=='1' && elMBR.mbr_partition2.part_name==buscarName)flag=true;
+    if(elMBR.mbr_partition3.part_status=='1' && elMBR.mbr_partition3.part_name==buscarName)flag=true;
+    if(elMBR.mbr_partition4.part_status=='1' && elMBR.mbr_partition4.part_name==buscarName)flag=true;
+    if(!flag){
+        cout<<"ERROR no encuentro esta particion en el disco <"<<buscarName.toUtf8().constData()<<">"<<endl;
+        return;
+    }
+
+
     if(lista.size()==0){
         montar primero;
         primero.namePartition=buscarName;
@@ -90,4 +109,17 @@ QString lista_particiones_montadas::getPath(QString buscarId){
     }
     cout<<"error no encontre ese id:"<<buscarId.toUtf8().constData()<<endl;
     return "";
+}
+QString lista_particiones_montadas::getId(QString ruta,QString name){
+    for(montar x: lista){
+        //cout<<x.path.toUtf8().constData()<<"=="<<ruta.toUtf8().constData()<<"?"<<endl;
+        if(x.path==ruta&&x.namePartition==name) return x.id;
+    }
+    return "Esta particion no estaba montada";
+}
+bool lista_particiones_montadas::comprobar_existe(QString id){
+    for(montar x: lista){
+        if(x.id==id)return true;
+    }
+    return false;
 }

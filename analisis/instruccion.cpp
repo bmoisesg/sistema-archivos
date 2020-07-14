@@ -81,7 +81,7 @@ int instruccion::getTamReal(int num, QString letra){
 }
 bool instruccion::pregunta_seguridad_para_eliminar(){
     while(true){
-        cout<<"\tseguro que queiere eliminar?[S/N]";
+        cout<<"\tseguro que quiere eliminar?[S/N]";
         int num=getchar();
         cin.ignore();
         if(num==83|| num==115){//s

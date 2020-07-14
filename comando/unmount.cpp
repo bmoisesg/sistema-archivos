@@ -11,6 +11,6 @@ void unmount::ejecutar()
     this->id=getParametro("id");
     lista_particiones_montadas *unmont= lista_particiones_montadas::getInstance();
     unmont->eliminar(id);
-    imprimir("[UNMOUNT] terminado");
+    imprimir("[UNMOUNT] <"+id+">terminado");
 
 }
