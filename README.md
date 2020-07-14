@@ -15,7 +15,7 @@ run:
 chmod +x interprete
 ./interprete
 ```
-![Alt text](/relative/salidas/terminal.png?raw=true "")
+![Alt text](/salidas/terminal.png?raw=true "")
 
 
 
