@@ -38,6 +38,15 @@ void fdisk::ejecutar(){
                     }
                     imprimir("\tLlene de 0's desde la posicion:"+QString::number(listaParticiones_tmp.at(x).part_start)+"-"+QString::number(listaParticiones_tmp.at(x).part_start+listaParticiones_tmp.at(x).part_size-1));
                     fclose(limpiarParticion);
+
+                    FILE *limpiarParticion_raid;
+                    limpiarParticion_raid=fopen(path.toUtf8().constData(),"rb+");
+                    for (int xx=listaParticiones_tmp.at(x).part_start;xx<listaParticiones_tmp.at(x).part_start+listaParticiones_tmp.at(x).part_size-1;xx++) {
+                        fseek(limpiarParticion_raid,xx,SEEK_SET);
+                        fputs("0",limpiarParticion_raid);
+                    }
+                    //imprimir("\tLlene de 0's desde la posicion:"+QString::number(listaParticiones_tmp.at(x).part_start)+"-"+QString::number(listaParticiones_tmp.at(x).part_start+listaParticiones_tmp.at(x).part_size-1));
+                    fclose(limpiarParticion_raid);
                 }
             }
         }
@@ -51,10 +60,8 @@ void fdisk::ejecutar(){
         elMBR.mbr_partition3= listaParticiones_tmp.at(2);
         elMBR.mbr_partition4= listaParticiones_tmp.at(3);
 
-        ofstream file( path.toUtf8(), ios::in | ios::out | ios::binary);
-        file.seekp(0);
-        file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
-        file.close();
+        setMBR(this->path,elMBR);
+
         lista_particiones_montadas *unmont= lista_particiones_montadas::getInstance();
 
         QString nombreParticionMontada=unmont->getId(path,name);
@@ -99,15 +106,10 @@ void fdisk::ejecutar(){
         elMBR.mbr_partition2=lista_particiones.at(1);
         elMBR.mbr_partition3=lista_particiones.at(2);
         elMBR.mbr_partition4=lista_particiones.at(3);
-        //solo se tiene ques setear el mbr
-        ofstream file( path.toUtf8(), ios::in | ios::out | ios::binary);
-        file.seekp(0);
-        file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
-        file.close();
+        setMBR(path,elMBR);
         cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> se agrego a la particion succesful c:"<<endl;
 
     }else{
-
         if(!revisarExitanParametros({"path","name","size"})) return;
         if(revisarParametro("unit")) { if(si_es_tiene_que_tener("unit",{"b","k","m"})) this->unit=getParametro("unit"); else return;}
         if(revisarParametro("type")) { if(si_es_tiene_que_tener("type",{"p","e","l"})) this->type=getParametro("type"); else return;}
@@ -255,11 +257,7 @@ void fdisk::escribir_particion_en(int ref){
     elMBR.mbr_partition2=listaParticiones_tmp[1];
     elMBR.mbr_partition3=listaParticiones_tmp[2];
     elMBR.mbr_partition4=listaParticiones_tmp[3];
-
-    ofstream file( path.toUtf8(), ios::in | ios::out | ios::binary);
-    file.seekp(0);
-    file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
-    file.close();
+    setMBR(path,elMBR);
     cout<<"[FDISK] name:<"<<name.toUtf8().constData()<<"> tipo:<"<<this->type.toUtf8().constData()<<"> succesful c:"<<endl;
 }
 

@@ -31,14 +31,25 @@ void mkdisk::ejecutar(){
     imprimir("\tfit ->"+fit);
     imprimir("\tunit ->"+unit+"\n\n");*/
     crearCarpetas(path);
+
+    QString raid=path;
+    raid.replace(".disk","raid.disk");
+
     ofstream archivo (this->path.toUtf8(),ios::binary);
     if(archivo.is_open()){
-
         int tamReal=getTamReal(size,unit);
         char caracter='\0';
         archivo.seekp((tamReal-1), ios::beg );
         archivo.write(&caracter,sizeof(char));
         archivo.close();
+
+        //raid
+        archivo.open (raid.toUtf8(),ios::binary);
+        archivo.seekp((tamReal-1), ios::beg );
+        archivo.write(&caracter,sizeof(char));
+        archivo.close();
+
+
 
         MBR newMBR;
         PARTITION tmp_particion;
@@ -59,7 +70,17 @@ void mkdisk::ejecutar(){
         file.seekp(0);
         file.write(reinterpret_cast<char*>(&newMBR),sizeof(MBR));
         file.close();
+        //raid
+        file.open (raid.toUtf8(), ios::in | ios::out | ios::binary);
+        file.seekp(0);
+        file.write(reinterpret_cast<char*>(&newMBR),sizeof(MBR));
+        file.close();
+
+
+
         cout<<"[MKDISK] "<<path.toUtf8().constData()<<" sucesful c:"<<endl;
+
+
 
         return;
     }else{

@@ -4,7 +4,6 @@ mkdisk -Size=2  -path=/home/bmoi6/salidas/disco2.disk  -unit=m
 mkdisk -Size=1  -path=/home/bmoi6/salidas/extra/disco3.disk  -unit=k
 mkdisk -Size=1  -path=/home/bmoi6/salidas/extra/disco4.disk -fit=ff -unit=m
 
-#rmdisk -path=/home/bmoi6/salidas/extra/disco4.disk
 
 fdisk -name="particion1" -path=/home/bmoi6/salidas/disco1.disk -size=730 -unit=b -type=p -fit=ff
 fdisk -name="particion2" -path=/home/bmoi6/salidas/disco1.disk -size=730 -unit=b -type=e -fit=ff
@@ -18,13 +17,11 @@ mount -path=/home/bmoi6/salidas/disco1.disk -name="particion3"
 mount -path=/home/bmoi6/salidas/disco1.disk -name="particion4"
 
 
+
 #eliminando una particion
-fdisk -name="particion1" -path=/home/bmoi6/salidas/disco1.disk -delete=full
+#fdisk -name="particion1" -path=/home/bmoi6/salidas/disco1.disk -delete=full
 
 
 #rep del disco 1
-rep -name="mbr" -path=/home/bmoi6/salidas/11.png -id=vda2
-rep -name="disk" -path=/home/bmoi6/salidas/22.png -id=vda2
-
-#rep -name="mbr" -path=/home/bmoi6/salidas/11.png -id=vdb1
-#rep -name="disk" -path=/home/bmoi6/salidas/22.png -id=vdb1
+#rep -name="mbr" -path=/home/bmoi6/salidas/11.png -id=vda2
+rep -name="disk" -path=/home/bmoi6/salidas/2.png -id=vda1

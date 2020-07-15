@@ -29,6 +29,7 @@ public:
     MBR getMBR(QString ruta);
     void ejecutar_comando(QString);
     vector <PARTITION> getPartionesOrdenaas(MBR);
+    void setMBR(QString ruta,MBR mbr);
 };
 
 #endif // INSTRUCCION_H

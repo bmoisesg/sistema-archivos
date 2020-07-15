@@ -8,9 +8,8 @@ using namespace std;
 int main()
 {
         extern lista_comandos *raiz;
-/*
 
-    const char *x ="/home/bmoi6/Documents/Qt Proyects/interprete/entrada.txt";
+  /*  const char *x ="/home/bmoi6/Documents/Qt Proyects/interprete/entrada.txt";
     FILE *archivo =fopen(x,"r");
     raiz= new lista_comandos();
     yyrestart(archivo);
@@ -19,8 +18,8 @@ int main()
         x->ejecutar();
     }
     cout<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl;
-    return 0;
-*/
+    return 0;*/
+
     while (true) {
         cout<<">>";
         ofstream archi("tmp_comandos.txt");

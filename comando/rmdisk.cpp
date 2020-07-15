@@ -16,6 +16,9 @@ void rmdisk::ejecutar()
 
     QString comando="rm \""+path+"\"";
     system(comando.toUtf8().constData());
+    //eliminar raid
+    system(comando.replace(".disk","raid.disk").toUtf8().constData());
+
     imprimir("[RMDISK] <"+path+"> eliminado :s");
 
 }

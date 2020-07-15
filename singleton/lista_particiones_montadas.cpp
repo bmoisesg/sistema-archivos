@@ -35,6 +35,7 @@ void lista_particiones_montadas::agregar(QString buscarPATH, QString buscarName)
 
 
     if(lista.size()==0){
+
         montar primero;
         primero.namePartition=buscarName;
         primero.path=buscarPATH;

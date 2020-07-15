@@ -140,3 +140,16 @@ vector<PARTITION> instruccion::getPartionesOrdenaas(MBR elMBR){
     listaParticiones_tmp.push_back(nuevo);
     return listaParticiones_tmp;
 }
+void instruccion::setMBR(QString path, MBR elMBR){
+    ofstream file( path.toUtf8(), ios::in | ios::out | ios::binary);
+    file.seekp(0);
+    file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
+    file.close();
+    //imprimir("escribi el mbr en el disco");
+    QString raid=path.replace(".disk","raid.disk");
+    file.open ( raid.toUtf8(), ios::in | ios::out | ios::binary);
+    file.seekp(0);
+    file.write(reinterpret_cast<char*>(&elMBR),sizeof(MBR));
+    file.close();
+    //imprimir("escribi el mbr en el raid");
+}
