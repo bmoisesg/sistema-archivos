@@ -15,9 +15,9 @@ run:
 chmod +x interprete
 ./interprete
 ```
-![Alt text](/salidas/terminal.png?raw=true "")
-![Alt text](/salidas/mbr.png?raw=true "reporte MBR")
-![Alt text](/salidas/disco.png?raw=true "reporte DISK")
+![Alt text](/docs/terminal.png?raw=true "")
+![Alt text](/docs/mbr.png?raw=true "reporte MBR")
+![Alt text](/docs/disco.png?raw=true "reporte DISK")
 
 
 
