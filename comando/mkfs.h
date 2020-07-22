@@ -6,6 +6,8 @@
 #include "structs/inode.h"
 #include "structs/journal.h"
 #include "structs/bloqueCarpeta.h"
+#include "structs/particion/infoposicionesparticion.h"
+#include "structs/posicionDentroParticion.h"
 class mkfs: public instruccion
 {
 public:

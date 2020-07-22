@@ -17,17 +17,23 @@ void mkfs::ejecutar()
         this->type=getParametro("type");
     }
     this->id=getParametro("id");
-    imprimir("\tid  :"+id);
-    imprimir("\ttype:"+type);
-    imprimir("\tfs  :"+fs+"\n");
+    imprimir("\tid..: "+id);
+    imprimir("\ttype: "+type);
+    imprimir("\tfs..: "+fs+"\n");
     /**
      * traer info de la particion montadas
      */
     lista_particiones_montadas *montadas= lista_particiones_montadas::getInstance();
     if(!montadas->comprobar_existe(id))return;
-    cout<<"\tsize :"<<montadas->getSize(id)<<endl;
-    cout<<"\tstart:"<<montadas->getStart(id)<<endl;
-    cout<<"\tn    :"<<get_n(fs,montadas->getSize(id))<<endl;
+    int particion_size=montadas->getSize(id);
+    int particion_start=montadas->getStart(id);
+    int n=get_n(fs,montadas->getSize(id));
+    cout<<"\tsize.: "<<particion_size<<endl;
+    cout<<"\tstart: "<<particion_start<<endl;
+    cout<<"\tn....: "<<n<<"\n"<<endl;
+    infoPosicionesParticion infoParticiones;
+    posicionDentroParticion posicion=infoParticiones.getPosiciones(fs,particion_start,n);
+
 
     imprimir("[mkfs] terminado c:");
     return;
