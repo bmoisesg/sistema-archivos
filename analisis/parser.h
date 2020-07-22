@@ -107,7 +107,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 41 "sintactico.yy" /* yacc.c:1909  */
+#line 42 "sintactico.yy" /* yacc.c:1909  */
 
   char TEXT [256]="";
   class instruccion * Instruccion;

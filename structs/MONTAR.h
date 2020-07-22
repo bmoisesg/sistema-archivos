@@ -8,6 +8,8 @@ struct montar{
     int num;
     char letra;
     QString id;
+    int start;
+    int size;
 
 };
 

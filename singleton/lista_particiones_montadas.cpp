@@ -1,13 +1,13 @@
-    #include "lista_particiones_montadas.h"
+#include "lista_particiones_montadas.h"
 lista_particiones_montadas * lista_particiones_montadas::instance = 0;
 
 lista_particiones_montadas * lista_particiones_montadas::getInstance()
 {
     if (instance == 0)
-       {
-           instance = new lista_particiones_montadas();
-       }
-       return instance;
+    {
+        instance = new lista_particiones_montadas();
+    }
+    return instance;
 }
 lista_particiones_montadas::lista_particiones_montadas(){
 
@@ -16,6 +16,7 @@ lista_particiones_montadas::lista_particiones_montadas(){
 void lista_particiones_montadas::agregar(QString buscarPATH, QString buscarName){
 
     MBR elMBR;
+    int montar_size, montar_start;
     ifstream archivo(buscarPATH.toUtf8());
     if(archivo.is_open())
     {
@@ -24,10 +25,10 @@ void lista_particiones_montadas::agregar(QString buscarPATH, QString buscarName)
         archivo.close();
     }
     bool flag=false;
-    if(elMBR.mbr_partition1.part_status=='1' && elMBR.mbr_partition1.part_name==buscarName)flag=true;
-    if(elMBR.mbr_partition2.part_status=='1' && elMBR.mbr_partition2.part_name==buscarName)flag=true;
-    if(elMBR.mbr_partition3.part_status=='1' && elMBR.mbr_partition3.part_name==buscarName)flag=true;
-    if(elMBR.mbr_partition4.part_status=='1' && elMBR.mbr_partition4.part_name==buscarName)flag=true;
+    if(elMBR.mbr_partition1.part_status=='1' && elMBR.mbr_partition1.part_name==buscarName){flag=true;montar_size=elMBR.mbr_partition1.part_size;montar_start=elMBR.mbr_partition1.part_start;}
+    if(elMBR.mbr_partition2.part_status=='1' && elMBR.mbr_partition2.part_name==buscarName){flag=true;montar_size=elMBR.mbr_partition2.part_size;montar_start=elMBR.mbr_partition2.part_start;}
+    if(elMBR.mbr_partition3.part_status=='1' && elMBR.mbr_partition3.part_name==buscarName){flag=true;montar_size=elMBR.mbr_partition3.part_size;montar_start=elMBR.mbr_partition3.part_start;}
+    if(elMBR.mbr_partition4.part_status=='1' && elMBR.mbr_partition4.part_name==buscarName){flag=true;montar_size=elMBR.mbr_partition4.part_size;montar_start=elMBR.mbr_partition4.part_start;}
     if(!flag){
         cout<<"ERROR no encuentro esta particion en el disco <"<<buscarName.toUtf8().constData()<<">"<<endl;
         return;
@@ -42,6 +43,8 @@ void lista_particiones_montadas::agregar(QString buscarPATH, QString buscarName)
         primero.letra='a';
         primero.num=1;
         primero.id="vda1";
+        primero.start=montar_start;
+        primero.size=montar_size;
         lista.append(primero);
     }else{
         montar nuevo;
@@ -73,6 +76,8 @@ void lista_particiones_montadas::agregar(QString buscarPATH, QString buscarName)
         nuevo.num= numeroAsignar;
         nuevo.letra= letraAsignar;
         nuevo.id="vd"+QString(QChar::fromLatin1(letraAsignar))+QString::number(numeroAsignar);
+        nuevo.start=montar_start;
+        nuevo.size=montar_size;
         lista.append(nuevo);
     }
     //seria bueno mostrar
@@ -122,5 +127,18 @@ bool lista_particiones_montadas::comprobar_existe(QString id){
     for(montar x: lista){
         if(x.id==id)return true;
     }
-    return false;
+   cout<<"ERROR este id <"<<id.toUtf8().constData()<<"> no se encuentra montado :c"<<endl;
+   return false;
+}
+int lista_particiones_montadas::getSize(QString id_particion){
+    for(montar x: lista){
+        if(x.id==id_particion)return x.size;
+    }
+    return -1;
+}
+int lista_particiones_montadas::getStart(QString id_particion){
+    for(montar x: lista){
+        if(x.id==id_particion)return x.start;
+    }
+    return -1;
 }

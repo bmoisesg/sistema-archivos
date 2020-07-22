@@ -6,6 +6,9 @@
 #include "QList"
 #include "iostream"
 #include "fstream"
+
+#include "structs/PARTITION.h"
+
 using namespace std;
 
 class lista_particiones_montadas
@@ -25,6 +28,9 @@ public:
         QString getPath(QString id);
         QString getId(QString path,QString);
         bool comprobar_existe(QString);
+        int getSize(QString id_particion);
+        int getStart(QString id_particion);
+
 };
 
 #endif // LISTA_PARTICIONES_MONTADAS_H

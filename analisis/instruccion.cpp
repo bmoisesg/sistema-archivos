@@ -153,3 +153,6 @@ void instruccion::setMBR(QString path, MBR elMBR){
     file.close();
     //imprimir("escribi el mbr en el raid");
 }
+void instruccion::imprimir_Encabezado(QString nombreComando){
+   imprimir("\n\n"+nombreComando+"-------------------------------------------------------------------------------------------------");
+}

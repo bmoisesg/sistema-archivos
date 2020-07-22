@@ -24,12 +24,13 @@ public:
     void imprimirErrorParametro(QString nombre);
     void crearCarpetas(QString name);
     int getTamReal(int, QString);
-    enum valor{size,paht};
+
     bool pregunta_seguridad_para_eliminar();
     MBR getMBR(QString ruta);
     void ejecutar_comando(QString);
     vector <PARTITION> getPartionesOrdenaas(MBR);
     void setMBR(QString ruta,MBR mbr);
+    void imprimir_Encabezado(QString nombreComando);
 };
 
 #endif // INSTRUCCION_H

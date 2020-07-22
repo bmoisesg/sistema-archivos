@@ -14,6 +14,7 @@
     #include "comando/rep.h"
     #include "comando/rmdisk.h"
     #include "comando/unmount.h"
+    #include "comando/mkfs.h"
 
     extern int yylineno;
     extern int column;
@@ -191,6 +192,7 @@ COMANDO:
         |rUnmount LISTA_PARAMETRO {$$= new unmount(*$2);}
         |rExec    LISTA_PARAMETRO {$$= new exec(*$2);}
         |rRep     LISTA_PARAMETRO {$$= new rep(*$2);}
+        |rMkfs    LISTA_PARAMETRO {$$= new mkfs(*$2);}
 
 
 %%
